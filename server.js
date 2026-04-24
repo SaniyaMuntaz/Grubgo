@@ -5,9 +5,7 @@ import cors from 'cors';
 const app = express();
 import cors from 'cors';
 
-app.use(cors({
-  origin: "https://grubgo-4gwb.onrender.com" // Put your Frontend Static Site URL here
-}));
+app.use(cors());
 app.use(express.json());
 
 // 1. CONNECT TO MONGODB (Ensure MongoDB Compass is installed/open)
