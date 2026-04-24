@@ -103,16 +103,20 @@ export default function App() {
   });
 }, [userPos, restaurants]);
 
- const filteredFeed = restaurants.filter(item => {
-  const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase());
-  
-  let currentMoodCategory = "";
-  if (mood < 25) currentMoodCategory = "Quick Snack";
-  else if (mood < 50) currentMoodCategory = "Balanced";
-  else if (mood < 75) currentMoodCategory = "Full Meal";
-  else currentMoodCategory = "Late Night Cravings";
+ // This maps the slider (1-100) to your 4 database categories
+const getMoodDetails = (value) => {
+  if (value < 25) return { label: "🥨 Quick Snack", category: "Quick Snack" };
+  if (value < 50) return { label: "🥗 Balanced", category: "Balanced" };
+  if (value < 75) return { label: "🥘 Full Meal", category: "Full Meal" };
+  return { label: "🌙 Late Night Cravings", category: "Late Night Cravings" };
+};
 
-  return matchesSearch && item.mood === currentMoodCategory;
+const currentMood = getMoodDetails(mood);
+
+// Updated Filter to match the 4 categories
+const filteredFeed = restaurants.filter(item => {
+  const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase());
+  return matchesSearch && item.mood === currentMood.category;
 });
 
   const handleSpin = () => {
@@ -146,34 +150,18 @@ export default function App() {
           <Routes>
             <Route path="/" element={
               <div>
-                <header style={{ marginBottom: '25px', textAlign: 'center' }}>
-  {/* BRAND NAME */}
-  <h1 style={{ 
-    margin: '0', 
-    fontSize: '32px', 
-    fontWeight: '900', 
-    letterSpacing: '-1px', 
-    color: '#000' 
-  }}>
+               <header style={{ marginBottom: '25px', textAlign: 'center' }}>
+  <h1 style={{ margin: '0', fontSize: '32px', fontWeight: '900', color: '#000' }}>
     GRUB<span style={{ color: '#39FF14' }}>GO</span>
   </h1>
-  
-  {/* TAGLINE */}
-  <p style={{ 
-    margin: '5px 0 20px 0', 
-    fontSize: '14px', 
-    color: '#666', 
-    fontStyle: 'italic',
-    fontWeight: '500'
-  }}>
+  <p style={{ margin: '5px 0 20px 0', fontSize: '14px', color: '#666', fontStyle: 'italic' }}>
     “Be as picky as you feel”
   </p>
 
-  {/* MOOD SLIDER SECTION */}
   <div style={moodBox}>
     <p style={{ fontSize: '12px', color: '#888', marginBottom: '10px' }}>
       Mood: <span style={{ color: '#39FF14', fontWeight: 'bold' }}>
-        {mood < 35 ? "🥨 Quick Snack" : mood > 75 ? "🥘 Full Meal" : "🥗 Balanced"}
+        {currentMood.label}
       </span>
     </p>
     <input 
@@ -184,9 +172,15 @@ export default function App() {
       onChange={(e) => setMood(e.target.value)} 
       style={sliderStyle} 
     />
+    {/* Visual indicators for the 4 zones */}
+    <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '5px', fontSize: '10px', color: '#ccc' }}>
+      <span>Snack</span>
+      <span>Healthy</span>
+      <span>Heavy</span>
+      <span>Late</span>
+    </div>
   </div>
 
-  {/* SEARCH BAR */}
   <div style={searchBarWrapper}>
     <Search size={20} color="#666" />
     <input 
