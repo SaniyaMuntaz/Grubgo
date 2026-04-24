@@ -6,29 +6,33 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// 1. CONNECT TO MONGODB (Ensure MongoDB Compass is installed/open)
-// This tells the code: "Use the Cloud link if it exists, otherwise use localhost"
-// This tells your code to use the cloud link if provided (by Render), 
-// or use the local one if you are running it on your own computer.
+// 1. DATABASE CONNECTION
 const dbURI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/grubgo";
 
 mongoose.connect(dbURI)
-  .then(() => {
-    console.log("✅ Successfully connected to MongoDB!");
-  })
-  .catch((err) => {
-    console.error("❌ Database connection error:", err);
-  });
-// 2. DEFINE THE DATA STRUCTURE
+  .then(() => console.log("✅ MongoDB Connected Successfully"))
+  .catch((err) => console.error("❌ MongoDB Connection Error:", err));
+
+// 2. RESTAURANT SCHEMA (The only one you need now)
 const restaurantSchema = new mongoose.Schema({
-  name: String, mood: String, dish: String, rating: String, 
-  time: String, price: String, image: String
+  name: String, 
+  mood: String, 
+  dish: String, 
+  rating: String, 
+  time: String, 
+  price: String, 
+  image: String,
+  lat: String,
+  lng: String
 });
 
 const Restaurant = mongoose.model('Restaurant', restaurantSchema);
 
-const User = mongoose.model('User', userSchema);
-// 3. API ROUTE: GET ALL RESTAURANTS
+// 3. API ROUTES
+app.get('/', (req, res) => {
+  res.send("🚀 GrubGo Backend is Running without Login!");
+});
+
 app.get('/api/restaurants', async (req, res) => {
   try {
     const stores = await Restaurant.find();
@@ -38,8 +42,6 @@ app.get('/api/restaurants', async (req, res) => {
   }
 });
 
-// 4. START THE SERVER
-// 4. START THE SERVER
-// Render provides a PORT automatically, so we use process.env.PORT
+// 4. START SERVER
 const PORT = process.env.PORT || 5000; 
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
