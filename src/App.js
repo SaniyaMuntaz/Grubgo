@@ -70,7 +70,7 @@ export default function App() {
     icon: {
       path: window.google.maps.SymbolPath.CIRCLE,
       scale: 10,
-      fillColor: "#3897f0",
+      fillColor: "#cdd7df",
       fillOpacity: 1,
       strokeWeight: 2,
       strokeColor: "#fff",
