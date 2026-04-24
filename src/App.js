@@ -17,7 +17,34 @@ export default function App() {
 
   const mapRef = useRef(null);
   const googleMap = useRef(null);
+  // 1. The States
+const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
+const [authData, setAuthData] = useState({ username: '', password: '' });
+const [isRegistering, setIsRegistering] = useState(false);
 
+// 2. The Auth Function
+const handleAuth = async (e) => {
+  e.preventDefault();
+  const path = isRegistering ? 'register' : 'login';
+  const res = await fetch(`https://grubgo-backend-5u6u.onrender.com/api/${path}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(authData)
+  });
+  const data = await res.json();
+
+  if (res.ok) {
+    if (isRegistering) {
+      alert("Account created! Now login.");
+      setIsRegistering(false);
+    } else {
+      localStorage.setItem('token', data.token);
+      setIsLoggedIn(true);
+    }
+  } else {
+    alert(data.message);
+  }
+};
 
   // --- STYLES (Moved inside or defined clearly) ---
   const compactCardStyle = {
@@ -138,7 +165,29 @@ export default function App() {
     setWinner(filteredFeed[winnerIndex]);
   }, 4000); // Must match the transition time in CSS
 };
-
+if (!isLoggedIn) {
+  return (
+    <div style={{ backgroundColor: '#000', height: '100vh', color: 'white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <form onSubmit={handleAuth} style={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '300px' }}>
+        <h1 style={{ color: '#39FF14', textAlign: 'center' }}>GRUBGO</h1>
+        <input 
+          type="text" placeholder="Username" style={searchInputStyle} 
+          onChange={(e) => setAuthData({...authData, username: e.target.value})} 
+        />
+        <input 
+          type="password" placeholder="Password" style={searchInputStyle} 
+          onChange={(e) => setAuthData({...authData, password: e.target.value})} 
+        />
+        <button type="submit" style={btnLarge}>
+          {isRegistering ? "CREATE ACCOUNT" : "LOGIN"}
+        </button>
+        <p onClick={() => setIsRegistering(!isRegistering)} style={{ color: '#39FF14', cursor: 'pointer', textAlign: 'center' }}>
+          {isRegistering ? "Go to Login" : "New? Create Account"}
+        </p>
+      </form>
+    </div>
+  );
+}
   return (
     <Router>
       <div style={{ minHeight: '100vh', backgroundColor: '#fff', color: 'white', fontFamily: 'sans-serif' }}>
