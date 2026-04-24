@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 
 const app = express();
-import cors from 'cors';
+
 
 app.use(cors());
 app.use(express.json());
@@ -40,5 +40,7 @@ app.get('/api/restaurants', async (req, res) => {
 });
 
 // 4. START THE SERVER
-const PORT = 5000;
-app.listen(PORT, () => console.log(`🚀 Kitchen (Backend) running on http://localhost:${PORT}`));
+// 4. START THE SERVER
+// Render provides a PORT automatically, so we use process.env.PORT
+const PORT = process.env.PORT || 5000; 
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
