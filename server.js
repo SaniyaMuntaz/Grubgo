@@ -7,10 +7,18 @@ app.use(cors());
 app.use(express.json());
 
 // 1. CONNECT TO MONGODB (Ensure MongoDB Compass is installed/open)
-mongoose.connect('mongodb://127.0.0.1:27017/grubgo_db')
-  .then(() => console.log("✅ Connected to MongoDB..."))
-  .catch(err => console.error("❌ Could not connect:", err));
+// This tells the code: "Use the Cloud link if it exists, otherwise use localhost"
+// This tells your code to use the cloud link if provided (by Render), 
+// or use the local one if you are running it on your own computer.
+const dbURI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/grubgo";
 
+mongoose.connect(dbURI)
+  .then(() => {
+    console.log("✅ Successfully connected to MongoDB!");
+  })
+  .catch((err) => {
+    console.error("❌ Database connection error:", err);
+  });
 // 2. DEFINE THE DATA STRUCTURE
 const restaurantSchema = new mongoose.Schema({
   name: String, mood: String, dish: String, rating: String, 
