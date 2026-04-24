@@ -1,6 +1,6 @@
 /* Core Root Styles */
 :root {
-  background-color: #000; /* Pure black for a better OLED look */
+  background-color: #fff; /* Pure black for a better OLED look */
   color: white;
   font-family: 'Inter', sans-serif;
 }
@@ -9,7 +9,7 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-  background-color: #000;
+  background-color: #fff;
 }
 
 /* Custom Slider Styling */
@@ -17,7 +17,7 @@ body {
   -webkit-appearance: none;
   width: 100%;
   height: 8px;
-  background: #222;
+  background: #1A3D63;
   border-radius: 5px;
   outline: none;
   cursor: pointer;
