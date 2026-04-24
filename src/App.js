@@ -141,7 +141,7 @@ export default function App() {
 
   return (
     <Router>
-      <div style={{ minHeight: '100vh', backgroundColor: '#000', color: 'white', fontFamily: 'sans-serif' }}>
+      <div style={{ minHeight: '100vh', backgroundColor: '#fff', color: 'white', fontFamily: 'sans-serif' }}>
         <div style={{ padding: '15px', paddingBottom: '110px' }}>
           <Routes>
             <Route path="/" element={
