@@ -27,7 +27,7 @@ export default function App() {
   };
 
   const iconBoxStyle = {
-    width: '50px', height: '50px', background: '#1a1a1a',
+    width: '50px', height: '50px', background: '#a6bed1',
     borderRadius: '12px', display: 'flex', alignItems: 'center',
     justifyContent: 'center', fontSize: '24px', border: '1px solid #333'
   };
