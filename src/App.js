@@ -146,18 +146,57 @@ export default function App() {
           <Routes>
             <Route path="/" element={
               <div>
-                <header style={{ marginBottom: '20px' }}>
-                  <div style={moodBox}>
-                    <p style={{fontSize:'12px', color:'#888', marginBottom:'10px'}}>
-                      Mood: <span style={{color: '#39FF14'}}>{mood < 35 ? "🥨 Quick Snack" : mood > 75 ? "🥘 Full Meal" : "🥗 Balanced"}</span>
-                    </p>
-                    <input type="range" min="1" max="100" value={mood} onChange={(e) => setMood(e.target.value)} style={sliderStyle} />
-                  </div>
-                  <div style={searchBarWrapper}>
-                    <Search size={20} color="#666" />
-                    <input type="text" placeholder="Search..." style={searchInputStyle} onChange={(e) => setSearchTerm(e.target.value)} />
-                  </div>
-                </header>
+                <header style={{ marginBottom: '25px', textAlign: 'center' }}>
+  {/* BRAND NAME */}
+  <h1 style={{ 
+    margin: '0', 
+    fontSize: '32px', 
+    fontWeight: '900', 
+    letterSpacing: '-1px', 
+    color: '#000' 
+  }}>
+    GRUB<span style={{ color: '#39FF14' }}>GO</span>
+  </h1>
+  
+  {/* TAGLINE */}
+  <p style={{ 
+    margin: '5px 0 20px 0', 
+    fontSize: '14px', 
+    color: '#666', 
+    fontStyle: 'italic',
+    fontWeight: '500'
+  }}>
+    “Be as picky as you feel”
+  </p>
+
+  {/* MOOD SLIDER SECTION */}
+  <div style={moodBox}>
+    <p style={{ fontSize: '12px', color: '#888', marginBottom: '10px' }}>
+      Mood: <span style={{ color: '#39FF14', fontWeight: 'bold' }}>
+        {mood < 35 ? "🥨 Quick Snack" : mood > 75 ? "🥘 Full Meal" : "🥗 Balanced"}
+      </span>
+    </p>
+    <input 
+      type="range" 
+      min="1" 
+      max="100" 
+      value={mood} 
+      onChange={(e) => setMood(e.target.value)} 
+      style={sliderStyle} 
+    />
+  </div>
+
+  {/* SEARCH BAR */}
+  <div style={searchBarWrapper}>
+    <Search size={20} color="#666" />
+    <input 
+      type="text" 
+      placeholder="Search for a craving..." 
+      style={searchInputStyle} 
+      onChange={(e) => setSearchTerm(e.target.value)} 
+    />
+  </div>
+</header>
                 {filteredFeed.map(res => (
                   <div key={res._id} style={compactCardStyle}>
                     <div style={iconBoxStyle}>{mood < 35 ? "🥨" : mood > 75 ? "🥘" : "🍱"}</div>
