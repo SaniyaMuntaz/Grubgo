@@ -5,26 +5,6 @@ import {
   Search, Phone, Star, Clock, Truck 
 } from 'lucide-react';
 
-// --- MOVE STYLES TO THE TOP SO THEY ARE ALWAYS READY ---
-const searchInputStyle = { background: 'transparent', border: 'none', color: 'white', width: '100%', outline: 'none', marginLeft: '10px' };
-const btnStyle = { background: '#39FF14', color: 'black', border: 'none', padding: '12px 24px', borderRadius: '30px', fontWeight: 'bold', cursor: 'pointer' };
-const btnLarge = { ...btnStyle, width: '100%', marginTop: '10px' };
-const navStyle = { position: 'fixed', bottom: 0, width: '100%', height: '80px', display: 'flex', justifyContent: 'space-around', alignItems: 'center', background: '#000', borderTop:'1px solid #222', zIndex: 1000 };
-const navItem = { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' };
-const navText = { fontSize: '9px', fontWeight: 'bold', textTransform: 'uppercase' };
-const moodBox = { background: '#111', padding: '15px', borderRadius: '15px', marginBottom: '15px', border: '1px solid #222' };
-const sliderStyle = { width: '100%', accentColor: '#39FF14' };
-const ultraCleanMapStyle = [{ elementType: "geometry", stylers: [{ color: "#212121" }] }, { featureType: "poi", elementType: "all", stylers: [{ visibility: "off" }] }];
-const mapContainerStyle = { height: '350px', width: '100%', borderRadius: '24px', margin: '15px 0', border: '1px solid #333' };
-const searchBarWrapper = { background: '#111', display: 'flex', padding: '12px', borderRadius: '15px', border: '1px solid #333' };
-const linkStyle = { color: '#39FF14', textDecoration: 'none' };
-const stepperWrapper = { display: 'flex', justifyContent: 'space-around', margin: '15px 0' };
-const dotStyle = { width: '8px', height: '8px', borderRadius: '50%', margin: '0 auto' };
-const riderCardStyle = { background: '#111', padding: '16px', borderRadius: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid #222', marginTop: '10px' };
-const callButtonStyle = { background: 'transparent', border: '1px solid #39FF14', color: '#39FF14', padding: '8px 18px', borderRadius: '20px' };
-const compactCardStyle = { background: '#fff', padding: '12px 16px', borderRadius: '16px', marginBottom: '10px', border: '1px solid #a6bed1', display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: '#000' };
-const iconBoxStyle = { width: '50px', height: '50px', background: '#a6bed1', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', border: '1px solid #333' };
-
 export default function App() {
   const [restaurants, setRestaurants] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -34,108 +14,134 @@ export default function App() {
   const [rotation, setRotation] = useState(0);
   const [orderStatus, setOrderStatus] = useState(0); 
   const [userPos, setUserPos] = useState({ lat: 17.4483, lng: 78.3915 }); 
+
   const mapRef = useRef(null);
   const googleMap = useRef(null);
 
-  // AUTH STATES
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
-  const [authData, setAuthData] = useState({ username: '', password: '' });
-  const [isRegistering, setIsRegistering] = useState(false);
 
-  const handleAuth = async (e) => {
-    e.preventDefault();
-    const path = isRegistering ? 'register' : 'login';
-    try {
-      const res = await fetch(`https://grubgo-backend-5u6u.onrender.com/api/${path}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(authData)
-      });
-      const data = await res.json();
+  // --- STYLES (Moved inside or defined clearly) ---
+  const compactCardStyle = {
+    background: '#fff', padding: '12px 16px', borderRadius: '16px',
+    marginBottom: '10px', border: '1px solid #a6bed1', display: 'flex',
+    alignItems: 'center', justifyContent: 'space-between'
+  };
 
-      if (res.ok) {
-        if (isRegistering) {
-          alert("Account created! Now login.");
-          setIsRegistering(false);
-        } else {
-          localStorage.setItem('token', data.token);
-          setIsLoggedIn(true);
-        }
-      } else {
-        alert(data.message || "Error");
-      }
-    } catch (err) {
-      alert("Cannot connect to server. Check your internet or backend status.");
-    }
+  const iconBoxStyle = {
+    width: '50px', height: '50px', background: '#a6bed1',
+    borderRadius: '12px', display: 'flex', alignItems: 'center',
+    justifyContent: 'center', fontSize: '24px', border: '1px solid #333'
   };
 
   useEffect(() => {
-    if (isLoggedIn) {
-      fetch("https://grubgo-backend-5u6u.onrender.com/api/restaurants")
-        .then(res => res.json())
-        .then(data => setRestaurants(data))
-        .catch(err => console.error("Fetch error:", err));
-    }
-  }, [isLoggedIn]);
+    fetch("https://grubgo-backend-5u6u.onrender.com/api/restaurants")
+      .then(res => {
+        if (!res.ok) throw new Error("Backend not responding");
+        return res.json();
+      })
+      .then(data => setRestaurants(data))
+      .catch(err => console.error("Fetch error:", err));
+  }, []);
 
-  // --- MAP LOGIC ---
+  useEffect(() => {
+    if (!navigator.geolocation) return;
+    navigator.geolocation.watchPosition(
+      (pos) => setUserPos({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+      (err) => console.error(err),
+      { enableHighAccuracy: true }
+    );
+  }, []);
+
   const initMap = React.useCallback(() => {
-    if (!window.google || !mapRef.current) return;
-    googleMap.current = new window.google.maps.Map(mapRef.current, {
-      center: userPos, 
-      zoom: 14, 
-      styles: ultraCleanMapStyle, 
-      disableDefaultUI: true
-    });
-  }, [userPos]);
+  if (!window.google || !mapRef.current) return;
 
-  const filteredFeed = restaurants.filter(item => {
-    const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase());
-    let cat = mood < 25 ? "Quick Snack" : mood < 50 ? "Balanced" : mood < 75 ? "Full Meal" : "Late Night Cravings";
-    return matchesSearch && item.mood === cat;
+  // 1. Create the Map centered on the User
+  googleMap.current = new window.google.maps.Map(mapRef.current, {
+    center: userPos, 
+    zoom: 14, 
+    styles: ultraCleanMapStyle, 
+    disableDefaultUI: true
   });
 
-  const handleSpin = () => {
-    if (isSpinning || filteredFeed.length === 0) return;
-    setIsSpinning(true);
-    setWinner(null);
-    const newRotation = rotation + 1800 + Math.floor(Math.random() * 360);
-    setRotation(newRotation);
-    setTimeout(() => {
-      setIsSpinning(false);
-      const actualRotation = newRotation % 360;
-      const sliceAngle = 360 / filteredFeed.length;
-      const winnerIndex = Math.floor(((360 - actualRotation + 270) % 360) / sliceAngle);
-      setWinner(filteredFeed[winnerIndex]);
-    }, 4000);
-  };
+  // 2. Add a special Blue Marker for the User (You)
+  new window.google.maps.Marker({
+    position: userPos,
+    map: googleMap.current,
+    title: "You are here",
+    icon: {
+      path: window.google.maps.SymbolPath.CIRCLE,
+      scale: 10,
+      fillColor: "#3897f0",
+      fillOpacity: 1,
+      strokeWeight: 2,
+      strokeColor: "#fff",
+    }
+  });
 
-  // GATEKEEPER
-  if (!isLoggedIn) {
-    return (
-      <div style={{ backgroundColor: '#000', height: '100vh', color: 'white', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px' }}>
-        <div style={{ width: '100%', maxWidth: '350px' }}>
-          <h1 style={{ color: '#39FF14', textAlign: 'center', letterSpacing: '4px' }}>GRUBGO</h1>
-          <form onSubmit={handleAuth} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-            <div style={searchBarWrapper}>
-                <input type="text" placeholder="Username" style={searchInputStyle} onChange={(e) => setAuthData({...authData, username: e.target.value})} />
-            </div>
-            <div style={searchBarWrapper}>
-                <input type="password" placeholder="Password" style={searchInputStyle} onChange={(e) => setAuthData({...authData, password: e.target.value})} />
-            </div>
-            <button type="submit" style={btnLarge}>{isRegistering ? "CREATE ACCOUNT" : "LOGIN"}</button>
-            <p onClick={() => setIsRegistering(!isRegistering)} style={{ color: '#39FF14', cursor: 'pointer', textAlign: 'center', fontSize: '14px' }}>
-              {isRegistering ? "Back to Login" : "New? Create Account"}
-            </p>
-          </form>
-        </div>
-      </div>
-    );
-  }
+  // 3. Add Red Markers for every Restaurant in your Database
+  restaurants.forEach(res => {
+    if (res.lat && res.lng) {
+      const marker = new window.google.maps.Marker({
+        position: { lat: parseFloat(res.lat), lng: parseFloat(res.lng) },
+        map: googleMap.current,
+        title: res.name,
+        // Optional: Custom icon for restaurants
+        icon: {
+          url: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
+          scaledSize: new window.google.maps.Size(35, 35)
+        }
+      });
+
+      // 4. Add a click popup (InfoWindow) to show the restaurant name
+      const infoWindow = new window.google.maps.InfoWindow({
+        content: `<div style="color:black;"><strong>${res.name}</strong><br/>${res.dish}</div>`
+      });
+
+      marker.addListener("click", () => {
+        infoWindow.open(googleMap.current, marker);
+      });
+    }
+  });
+}, [userPos, restaurants]);
+
+ const filteredFeed = restaurants.filter(item => {
+  const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase());
+  
+  let currentMoodCategory = "";
+  if (mood < 25) currentMoodCategory = "Quick Snack";
+  else if (mood < 50) currentMoodCategory = "Balanced";
+  else if (mood < 75) currentMoodCategory = "Full Meal";
+  else currentMoodCategory = "Late Night Cravings";
+
+  return matchesSearch && item.mood === currentMoodCategory;
+});
+
+  const handleSpin = () => {
+  if (isSpinning || filteredFeed.length === 0) return;
+
+  setIsSpinning(true);
+  setWinner(null);
+
+  // 1. Calculate a big random rotation (at least 5 full turns + random)
+  const newRotation = rotation + 1800 + Math.floor(Math.random() * 360);
+  setRotation(newRotation);
+
+  // 2. Wait for the CSS transition (4 seconds) to finish
+  setTimeout(() => {
+    setIsSpinning(false);
+    
+    // 3. Logic to find who is at the "Top" (12 o'clock)
+    const actualRotation = newRotation % 360;
+    const sliceAngle = 360 / filteredFeed.length;
+    // We adjust by 270 degrees because CSS 0deg starts at 3 o'clock
+    const winnerIndex = Math.floor(((360 - actualRotation + 270) % 360) / sliceAngle);
+    
+    setWinner(filteredFeed[winnerIndex]);
+  }, 4000); // Must match the transition time in CSS
+};
 
   return (
     <Router>
-      <div style={{ minHeight: '100vh', backgroundColor: '#fff', color: '#000', fontFamily: 'sans-serif' }}>
+      <div style={{ minHeight: '100vh', backgroundColor: '#fff', color: 'white', fontFamily: 'sans-serif' }}>
         <div style={{ padding: '15px', paddingBottom: '110px' }}>
           <Routes>
             <Route path="/" element={
@@ -156,48 +162,190 @@ export default function App() {
                   <div key={res._id} style={compactCardStyle}>
                     <div style={iconBoxStyle}>{mood < 35 ? "🥨" : mood > 75 ? "🥘" : "🍱"}</div>
                     <div style={{ flex: 1, marginLeft: '15px' }}>
-                      <h4 style={{ margin: 0 }}>{res.name}</h4>
-                      <p style={{ margin: 0, fontSize: '12px', color: '#888' }}>{res.dish}</p>
+                      <h4 style={{ margin: 0, fontSize: '16px' }}>{res.name}</h4>
+                      <p style={{ margin: '2px 0 0 0', fontSize: '12px', color: '#888' }}>{res.dish}</p>
                     </div>
                     <div style={{ textAlign: 'right' }}>
-                      <div style={{ color: '#39FF14', fontWeight: 'bold' }}><Star size={14} fill="#39FF14" /> {res.rating}</div>
+                      <div style={{ color: '#39FF14', fontSize: '14px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <Star size={14} fill="#39FF14" /> {res.rating}
+                      </div>
+                      <div style={{ fontSize: '10px', color: '#555', marginTop: '4px' }}>
+                        <Clock size={10} /> 25 min
+                      </div>
                     </div>
                   </div>
                 ))}
               </div>
             } />
 
-            <Route path="/spin" element={
-              <div style={{ textAlign: 'center' }}>
-                <h2 style={{ color: '#000' }}>MOOD WHEEL</h2>
-                <div style={{ position: 'relative', width: '300px', height: '300px', margin: '20px auto', borderRadius: '50%', overflow: 'hidden', border: '5px solid #000', transition: 'transform 4s cubic-bezier(0.15, 0, 0.15, 1)', transform: `rotate(${rotation}deg)`, background: `conic-gradient(${filteredFeed.map((_, i) => `${i % 2 === 0 ? '#39FF14' : '#111'} ${(360/filteredFeed.length) * i}deg ${(360/filteredFeed.length) * (i+1)}deg`).join(', ')})` }}>
-                </div>
-                <button onClick={handleSpin} style={btnLarge} disabled={isSpinning}>SPIN</button>
-                {winner && !isSpinning && <h3 style={{marginTop:'20px'}}>Winner: {winner.name}</h3>}
-              </div>
-            } />
+            
+  
+            <Route path="/spin" element={
+  <div style={{ textAlign: 'center', padding: '20px' }}>
+    <h2 style={{ color: '#39FF14', letterSpacing: '2px' }}>MOOD WHEEL</h2>
+    
+    <div style={{ position: 'relative', width: '320px', height: '320px', margin: '40px auto' }}>
+      {/* The Arrow/Pointer */}
+      <div style={{
+        position: 'absolute', top: '-20px', left: '50%', 
+        transform: 'translateX(-50%)', zIndex: 10, fontSize: '30px'
+      }}>▼</div>
 
-            <Route path="/track" element={
-              <div style={{ textAlign: 'center' }}>
-                <h2>Tracking</h2>
-                <MapComponent mapRef={mapRef} initMap={initMap} />
-              </div>
-            } />
-          </Routes>
-        </div>
+      {/* The Wheel */}
+      <div style={{
+        width: '100%', height: '100%', borderRadius: '50%',
+        position: 'relative', overflow: 'hidden',
+        border: '8px solid #1a1a1a',
+        boxShadow: '0 0 40px rgba(57, 255, 20, 0.2)',
+        transition: 'transform 4s cubic-bezier(0.15, 0, 0.15, 1)', // Smooth slow-down
+        transform: `rotate(${rotation}deg)`,
+        background: `conic-gradient(${
+          filteredFeed.map((_, i) => 
+            `${i % 2 === 0 ? '#39FF14' : '#111'} ${(360/filteredFeed.length) * i}deg ${(360/filteredFeed.length) * (i+1)}deg`
+          ).join(', ')
+        })`
+      }}>
+       {filteredFeed.map((res, i) => {
+  const total = filteredFeed.length;
+  const angle = 360 / total;
+  // Calculate the center of the slice
+  const rotationAngle = (angle * i) + (angle / 2);
 
-        <nav style={navStyle}>
-          <Link to="/" style={linkStyle}><div style={navItem}><HomeIcon size={22}/><span style={navText}>Home</span></div></Link>
-          <Link to="/spin" style={linkStyle}><div style={navItem}><Compass size={22}/><span style={navText}>Spin</span></div></Link>
-          <Link to="/track" style={linkStyle}><div style={navItem}><Truck size={22}/><span style={navText}>Track</span></div></Link>
-          <div onClick={() => {localStorage.removeItem('token'); window.location.reload();}} style={{...navItem, color: 'red', cursor: 'pointer'}}><span style={navText}>Logout</span></div>
-        </nav>
-      </div>
-    </Router>
+  return (
+    <div key={i} style={{
+      position: 'absolute',
+      top: '0',
+      left: '50%',
+      width: '100px', // Give the label a fixed width
+      height: '50%',  // Only goes from center to edge
+      marginLeft: '-50px', // Center the 100px width on the middle line
+      transformOrigin: 'bottom center', // Rotate from the center of the wheel
+      transform: `rotate(${rotationAngle}deg)`,
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'flex-start', // Push text to the outer edge
+      zIndex: 10
+    }}>
+      <span style={{
+        marginTop: '20px', // Adjust this to move names closer to the edge
+        transform: 'rotate(90deg)', // Keep them vertical
+        fontSize: '10px',
+        fontWeight: '900',
+        color: i % 2 === 0 ? '#000' : '#FFF',
+        whiteSpace: 'nowrap',
+        textTransform: 'uppercase',
+        letterSpacing: '0.5px'
+      }}>
+        {res.name.split(' ')[0]} {/* Show only the first word to save space */}
+      </span>
+    </div>
   );
+})}
+
+{/* The "Hub" Cap - Put this AFTER the map to hide the center intersection */}
+<div style={{
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  width: '50px',
+  height: '50px',
+  backgroundColor: '#1a1a1a',
+  borderRadius: '50%',
+  transform: 'translate(-50%, -50%)',
+  zIndex: 20,
+  border: '4px solid #39FF14',
+  boxShadow: '0 0 15px rgba(57, 255, 20, 0.4)'
+}}></div>
+      </div>
+    </div>
+
+    <button onClick={handleSpin} style={btnStyle} disabled={isSpinning}>
+      {isSpinning ? "SPINNING..." : "LET FATE DECIDE"}
+    </button>
+
+    {winner && !isSpinning && (
+      <div style={{ marginTop: '20px', animation: 'fadeIn 0.5s' }}>
+        <p style={{ color: '#888' }}>Go to:</p>
+        <h3 style={{ color: '#39FF14' }}>{winner.name}</h3>
+      </div>
+    )}
+  </div>
+} />
+            
+            <Route path="/cart" element={
+              <div style={{ textAlign: 'center', padding: '20px' }}>
+                <h2 style={{ color: '#39FF14' }}>Your Cart</h2>
+                <div style={{ padding: '40px', border: '1px dashed #333', borderRadius: '20px' }}>
+                  <ShoppingBag size={48} color="#333" style={{ marginBottom: '10px' }} />
+                  <p style={{ color: '#888' }}>Cart is empty</p>
+                </div>
+              </div>
+            } />
+
+            <Route path="/track" element={
+              <div style={{ textAlign: 'center' }}>
+                <h2 style={{ color: '#39FF14' }}>Live Tracking</h2>
+                <div style={stepperWrapper}>
+                    {['Placed', 'Kitchen', 'Rider', 'Arrived'].map((step, i) => (
+                        <div key={step} style={{ textAlign: 'center', opacity: orderStatus >= i ? 1 : 0.3 }}>
+                            <div style={{...dotStyle, backgroundColor: orderStatus >= i ? '#39FF14' : '#444'}}></div>
+                            <p style={{fontSize:'10px', marginTop: '5px'}}>{step}</p>
+                        </div>
+                    ))}
+                </div>
+                <MapComponent mapRef={mapRef} initMap={initMap} />
+                <div style={riderCardStyle}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <div style={{fontSize:'28px'}}>🚴</div>
+                    <div style={{textAlign:'left'}}>
+                      <h4 style={{margin:0}}>Arjun K.</h4>
+                      <p style={{margin:0, fontSize:'11px', color:'#888'}}>Honda Activa • On the way</p>
+                    </div>
+                  </div>
+                  <button style={callButtonStyle}><Phone size={14}/> Call</button>
+                </div>
+                <button onClick={() => setOrderStatus((orderStatus + 1) % 4)} style={btnLarge}>NEXT STATUS</button>
+              </div>
+            } />
+          </Routes>
+        </div>
+
+        <nav style={navStyle}>
+          <Link to="/" style={linkStyle}><div style={navItem}><HomeIcon size={22}/><span style={navText}>Home</span></div></Link>
+          <Link to="/spin" style={linkStyle}><div style={navItem}><Compass size={22}/><span style={navText}>Spin</span></div></Link>
+          <Link to="/cart" style={linkStyle}><div style={navItem}><ShoppingBag size={22}/><span style={navText}>Cart</span></div></Link>
+          <Link to="/track" style={linkStyle}><div style={navItem}><Truck size={22}/><span style={navText}>Track</span></div></Link>
+        </nav>
+      </div>
+
+   
+
+    </Router>
+  );
 }
+        
 
 function MapComponent({ mapRef, initMap }) {
-  useEffect(() => { initMap(); }, [initMap]);
+  useEffect(() => { 
+    initMap(); 
+  },[initMap]);
   return <div ref={mapRef} style={mapContainerStyle} />;
 }
+
+// --- REMAINING STYLES ---
+const navStyle = { position: 'fixed', bottom: 0, width: '100%', height: '80px', display: 'flex', justifyContent: 'space-around', alignItems: 'center', background: '#000', borderTop:'1px solid #222', zIndex: 1000 };
+const navItem = { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' };
+const navText = { fontSize: '9px', fontWeight: 'bold', textTransform: 'uppercase' };
+const moodBox = { background: '#111', padding: '15px', borderRadius: '15px', marginBottom: '15px', border: '1px solid #222' };
+const sliderStyle = { width: '100%', accentColor: '#39FF14' };
+const ultraCleanMapStyle = [{ elementType: "geometry", stylers: [{ color: "#212121" }] }, { featureType: "poi", elementType: "all", stylers: [{ visibility: "off" }] }];
+const mapContainerStyle = { height: '350px', width: '100%', borderRadius: '24px', margin: '15px 0', border: '1px solid #333' };
+const searchBarWrapper = { background: '#111', display: 'flex', padding: '12px', borderRadius: '15px' };
+const searchInputStyle = { background: 'transparent', border: 'none', color: 'white', width: '100%', outline: 'none', marginLeft: '10px' };
+const linkStyle = { color: '#39FF14', textDecoration: 'none' };
+const btnStyle = { background: '#39FF14', color: 'black', border: 'none', padding: '12px 24px', borderRadius: '30px', fontWeight: 'bold' };
+const btnLarge = { ...btnStyle, width: '100%', marginTop: '10px' };
+const stepperWrapper = { display: 'flex', justifyContent: 'space-around', margin: '15px 0' };
+const dotStyle = { width: '8px', height: '8px', borderRadius: '50%', margin: '0 auto' };
+const riderCardStyle = { background: '#111', padding: '16px', borderRadius: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid #222', marginTop: '10px' };
+const callButtonStyle = { background: 'transparent', border: '1px solid #39FF14', color: '#39FF14', padding: '8px 18px', borderRadius: '20px' };
