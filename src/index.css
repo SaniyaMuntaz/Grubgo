@@ -1,0 +1,89 @@
+/* Core Root Styles */
+:root {
+  background-color: #000; /* Pure black for a better OLED look */
+  color: white;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  background-color: #000;
+}
+
+/* Custom Slider Styling */
+.grubgo-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 8px;
+  background: #222;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+  margin: 10px 0;
+}
+
+.grubgo-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #39FF14;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #39FF14;
+  transition: transform 0.2s;
+}
+
+.grubgo-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+/* Bottom Navigation Bar */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 80px;
+  background: #000;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 1px solid #222;
+  z-index: 1000;
+}
+
+/* Special Floating Home Icon (Optional - if you use this class) */
+.home-anchor {
+  background: #39FF14;
+  color: black;
+  padding: 12px;
+  border-radius: 50%;
+  margin-top: -30px; 
+  box-shadow: 0 0 15px rgba(57, 255, 20, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Nav Item Typography */
+.nav-item {
+  color: #888;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  gap: 4px;
+}
+
+.nav-item:hover { 
+  color: #39FF14; 
+}
+
+/* Scrollbar Hider */
+::-webkit-scrollbar {
+  display: none;
+}
