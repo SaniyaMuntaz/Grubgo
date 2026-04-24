@@ -22,7 +22,7 @@ export default function App() {
   // --- STYLES (Moved inside or defined clearly) ---
   const compactCardStyle = {
     background: '#fff', padding: '12px 16px', borderRadius: '16px',
-    marginBottom: '10px', border: '1px solid #fff', display: 'flex',
+    marginBottom: '10px', border: '1px solid #a6bed1', display: 'flex',
     alignItems: 'center', justifyContent: 'space-between'
   };
 
