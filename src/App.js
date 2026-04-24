@@ -103,16 +103,20 @@ export default function App() {
   });
 }, [userPos, restaurants]);
 
- const filteredFeed = restaurants.filter(item => {
-  const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase());
-  
-  let currentMoodCategory = "";
-  if (mood < 25) currentMoodCategory = "Quick Snack";
-  else if (mood < 50) currentMoodCategory = "Balanced";
-  else if (mood < 75) currentMoodCategory = "Full Meal";
-  else currentMoodCategory = "Late Night Cravings";
+ // This maps the slider (1-100) to your 4 database categories
+const getMoodDetails = (value) => {
+  if (value < 25) return { label: "🥨 Quick Snack", category: "Quick Snack" };
+  if (value < 50) return { label: "🥗 Balanced", category: "Balanced" };
+  if (value < 75) return { label: "🥘 Full Meal", category: "Full Meal" };
+  return { label: "🌙 Late Night Cravings", category: "Late Night Cravings" };
+};
 
-  return matchesSearch && item.mood === currentMoodCategory;
+const currentMood = getMoodDetails(mood);
+
+// Updated Filter to match the 4 categories
+const filteredFeed = restaurants.filter(item => {
+  const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase());
+  return matchesSearch && item.mood === currentMood.category;
 });
 
   const handleSpin = () => {
