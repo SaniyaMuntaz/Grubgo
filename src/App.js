@@ -20,32 +20,32 @@ export default function App() {
   const mapRef = useRef(null);
   const googleMap = useRef(null);
   const handleAuth = async (e) => {
-    e.preventDefault();
-    // Determine if we are calling /login or /register
-    const endpoint = isRegistering ? 'register' : 'login';
+  e.preventDefault();
+  const endpoint = isRegistering ? 'register' : 'login';
+  
+  try {
+    const res = await fetch(`https://your-backend-link.onrender.com/api/${endpoint}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(loginData)
+    });
     
-    try {
-      const res = await fetch(`https://grubgo-backend-5u6u.onrender.com/api/${endpoint}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(loginData)
-      });
-      
-      const data = await res.json();
-      
-      if (isRegistering) {
-        alert("Account created! Now please log in.");
-        setIsRegistering(false);
-      } else if (data.token) {
-        localStorage.setItem('token', data.token);
-        setIsLoggedIn(true);
-      } else {
-        alert(data.message || "Invalid credentials");
-      }
-    } catch (err) {
-      console.error("Auth error:", err);
+    const data = await res.json();
+    
+    if (res.ok && data.token) {
+      // 1. Save the token
+      localStorage.setItem('token', data.token);
+      // 2. Force React to update the UI
+      setIsLoggedIn(true); 
+      console.log("Login Successful!");
+    } else {
+      alert(data.message || "Login failed. Check your username/password.");
     }
-  };
+  } catch (err) {
+    console.error("Connection error:", err);
+    alert("Cannot connect to server. Is the Backend URL correct?");
+  }
+};
 
   // --- STYLES (Moved inside or defined clearly) ---
   const compactCardStyle = {
