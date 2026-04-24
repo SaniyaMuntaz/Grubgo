@@ -21,15 +21,15 @@ export default function App() {
 
   // --- STYLES (Moved inside or defined clearly) ---
   const compactCardStyle = {
-    background: '#66001f', padding: '12px 16px', borderRadius: '16px',
-    marginBottom: '10px', border: '1px solid #66001f', display: 'flex',
+    background: '#fff', padding: '12px 16px', borderRadius: '16px',
+    marginBottom: '10px', border: '1px solid #a6bed1', display: 'flex',
     alignItems: 'center', justifyContent: 'space-between'
   };
 
   const iconBoxStyle = {
-    width: '50px', height: '50px', background: '#66001f',
+    width: '50px', height: '50px', background: '#a6bed1',
     borderRadius: '12px', display: 'flex', alignItems: 'center',
-    justifyContent: 'center', fontSize: '24px', border: '1px solid #fefcef'
+    justifyContent: 'center', fontSize: '24px', border: '1px solid #333'
   };
 
   useEffect(() => {
@@ -70,7 +70,7 @@ export default function App() {
     icon: {
       path: window.google.maps.SymbolPath.CIRCLE,
       scale: 10,
-      fillColor: "#cdd7df",
+      fillColor: "#3897f0",
       fillOpacity: 1,
       strokeWeight: 2,
       strokeColor: "#fff",
@@ -103,20 +103,16 @@ export default function App() {
   });
 }, [userPos, restaurants]);
 
- // This maps the slider (1-100) to your 4 database categories
-const getMoodDetails = (value) => {
-  if (value < 25) return { label: "🥨 Quick Snack", category: "Quick Snack" };
-  if (value < 50) return { label: "🥗 Balanced", category: "Balanced" };
-  if (value < 75) return { label: "🥘 Full Meal", category: "Full Meal" };
-  return { label: "🌙 Late Night Cravings", category: "Late Night Cravings" };
-};
-
-const currentMood = getMoodDetails(mood);
-
-// Updated Filter to match the 4 categories
-const filteredFeed = restaurants.filter(item => {
+ const filteredFeed = restaurants.filter(item => {
   const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase());
-  return matchesSearch && item.mood === currentMood.category;
+  
+  let currentMoodCategory = "";
+  if (mood < 25) currentMoodCategory = "Quick Snack";
+  else if (mood < 50) currentMoodCategory = "Balanced";
+  else if (mood < 75) currentMoodCategory = "Full Meal";
+  else currentMoodCategory = "Late Night Cravings";
+
+  return matchesSearch && item.mood === currentMoodCategory;
 });
 
   const handleSpin = () => {
@@ -145,64 +141,35 @@ const filteredFeed = restaurants.filter(item => {
 
   return (
     <Router>
-      <div style={{ minHeight: '100vh', backgroundColor: '#fefcef', color: 'white', fontFamily: 'sans-serif' }}>
+      <div style={{ minHeight: '100vh', backgroundColor: '#fff', color: 'white', fontFamily: 'sans-serif' }}>
         <div style={{ padding: '15px', paddingBottom: '110px' }}>
           <Routes>
             <Route path="/" element={
               <div>
-                <header style={{ marginBottom: '25px', textAlign: 'center' }}>
-  <h1 style={{ margin: '0', fontSize: '32px', fontWeight: '900', color: '#66001f' }}>
-    GRUB<span style={{ color: '#fffcf6' }}>GO</span>
-  </h1>
-  <p style={{ margin: '5px 0 20px 0', fontSize: '14px', color: '#3b010b', fontStyle: 'italic' }}>
-    “Be as picky as you feel”
-  </p>
-
-  <div style={moodBox}>
-    <p style={{ fontSize: '12px', color: '#f2d9a0', marginBottom: '10px' }}>
-      Mood: <span style={{ color: '#f2e5c6', fontWeight: 'bold' }}>
-        {currentMood.label}
-      </span>
-    </p>
-    <input 
-      type="range" 
-      min="1" 
-      max="100" 
-      value={mood} 
-      onChange={(e) => setMood(e.target.value)} 
-      style={sliderStyle} 
-    />
-    {/* Visual indicators for the 4 zones */}
-    <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '5px', fontSize: '10px', color: '#fefcef' }}>
-      <span>Snack</span>
-      <span>Healthy</span>
-      <span>Heavy</span>
-      <span>Late</span>
-    </div>
-  </div>
-
-  <div style={searchBarWrapper}>
-    <Search size={20} color="#fff7ec" />
-    <input 
-      type="text" 
-      placeholder="Search for a craving..." 
-      style={searchInputStyle} 
-      onChange={(e) => setSearchTerm(e.target.value)} 
-    />
-  </div>
-</header>
+                <header style={{ marginBottom: '20px' }}>
+                  <div style={moodBox}>
+                    <p style={{fontSize:'12px', color:'#888', marginBottom:'10px'}}>
+                      Mood: <span style={{color: '#39FF14'}}>{mood < 35 ? "🥨 Quick Snack" : mood > 75 ? "🥘 Full Meal" : "🥗 Balanced"}</span>
+                    </p>
+                    <input type="range" min="1" max="100" value={mood} onChange={(e) => setMood(e.target.value)} style={sliderStyle} />
+                  </div>
+                  <div style={searchBarWrapper}>
+                    <Search size={20} color="#666" />
+                    <input type="text" placeholder="Search..." style={searchInputStyle} onChange={(e) => setSearchTerm(e.target.value)} />
+                  </div>
+                </header>
                 {filteredFeed.map(res => (
                   <div key={res._id} style={compactCardStyle}>
                     <div style={iconBoxStyle}>{mood < 35 ? "🥨" : mood > 75 ? "🥘" : "🍱"}</div>
                     <div style={{ flex: 1, marginLeft: '15px' }}>
                       <h4 style={{ margin: 0, fontSize: '16px' }}>{res.name}</h4>
-                      <p style={{ margin: '2px 0 0 0', fontSize: '12px', color: '#474c80' }}>{res.dish}</p>
+                      <p style={{ margin: '2px 0 0 0', fontSize: '12px', color: '#888' }}>{res.dish}</p>
                     </div>
                     <div style={{ textAlign: 'right' }}>
-                      <div style={{ color: '#f6e9d9', fontSize: '14px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <div style={{ color: '#39FF14', fontSize: '14px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '4px' }}>
                         <Star size={14} fill="#39FF14" /> {res.rating}
                       </div>
-                      <div style={{ fontSize: '10px', color: '#ffeda8', marginTop: '4px' }}>
+                      <div style={{ fontSize: '10px', color: '#555', marginTop: '4px' }}>
                         <Clock size={10} /> 25 min
                       </div>
                     </div>
