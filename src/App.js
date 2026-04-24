@@ -21,15 +21,15 @@ export default function App() {
 
   // --- STYLES (Moved inside or defined clearly) ---
   const compactCardStyle = {
-    background: '#f2edb6', padding: '12px 16px', borderRadius: '16px',
-    marginBottom: '10px', border: '1px solid #a6bed1', display: 'flex',
+    background: '#66001f', padding: '12px 16px', borderRadius: '16px',
+    marginBottom: '10px', border: '1px solid #66001f', display: 'flex',
     alignItems: 'center', justifyContent: 'space-between'
   };
 
   const iconBoxStyle = {
-    width: '50px', height: '50px', background: '#a86f44',
+    width: '50px', height: '50px', background: '#66001f',
     borderRadius: '12px', display: 'flex', alignItems: 'center',
-    justifyContent: 'center', fontSize: '24px', border: '1px solid #333'
+    justifyContent: 'center', fontSize: '24px', border: '1px solid #fefcef'
   };
 
   useEffect(() => {
@@ -145,22 +145,22 @@ const filteredFeed = restaurants.filter(item => {
 
   return (
     <Router>
-      <div style={{ minHeight: '100vh', backgroundColor: '#fff', color: 'white', fontFamily: 'sans-serif' }}>
+      <div style={{ minHeight: '100vh', backgroundColor: '#fefcef', color: 'white', fontFamily: 'sans-serif' }}>
         <div style={{ padding: '15px', paddingBottom: '110px' }}>
           <Routes>
             <Route path="/" element={
               <div>
                 <header style={{ marginBottom: '25px', textAlign: 'center' }}>
-  <h1 style={{ margin: '0', fontSize: '32px', fontWeight: '900', color: '#011c40' }}>
-    GRUB<span style={{ color: '#3e6985' }}>GO</span>
+  <h1 style={{ margin: '0', fontSize: '32px', fontWeight: '900', color: '#66001f' }}>
+    GRUB<span style={{ color: '#474c80' }}>GO</span>
   </h1>
-  <p style={{ margin: '5px 0 20px 0', fontSize: '14px', color: '#49769f', fontStyle: 'italic' }}>
+  <p style={{ margin: '5px 0 20px 0', fontSize: '14px', color: '#3e0000c', fontStyle: 'italic' }}>
     “Be as picky as you feel”
   </p>
 
   <div style={moodBox}>
-    <p style={{ fontSize: '12px', color: '#d6e8ee', marginBottom: '10px' }}>
-      Mood: <span style={{ color: '#a987a8', fontWeight: 'bold' }}>
+    <p style={{ fontSize: '12px', color: '#78011e', marginBottom: '10px' }}>
+      Mood: <span style={{ color: '#4a0011', fontWeight: 'bold' }}>
         {currentMood.label}
       </span>
     </p>
