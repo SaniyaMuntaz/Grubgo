@@ -34,11 +34,32 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model('User', userSchema);
 // 3. API ROUTE: GET ALL RESTAURANTS
 app.get('/api/restaurants', async (req, res) => {
+  const stores = await Restaurant.find();
+  res.json(stores);
+});
+
+// 2. Register User (New)
+app.post('/api/register', async (req, res) => {
   try {
-    const stores = await Restaurant.find();
-    res.json(stores);
+    const { username, password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({ username, password: hashedPassword });
+    await newUser.save();
+    res.status(201).json({ message: "User created!" });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Error creating user" });
+  }
+});
+
+// 3. Login User (New)
+app.post('/api/login', async (req, res) => {
+  const { username, password } = req.body;
+  const user = await User.findOne({ username });
+  if (user && await bcrypt.compare(password, user.password)) {
+    const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1h' });
+    res.json({ token, username: user.username });
+  } else {
+    res.status(401).json({ message: "Invalid credentials" });
   }
 });
 
