@@ -6,7 +6,7 @@ const app = express();
 import cors from 'cors';
 
 app.use(cors({
-  origin: "https://grubgo-app-link.onrender.com" // Put your Frontend Static Site URL here
+  origin: "https://grubgo-4gwb.onrender.com" // Put your Frontend Static Site URL here
 }));
 app.use(express.json());
 
