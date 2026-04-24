@@ -152,9 +152,9 @@ const filteredFeed = restaurants.filter(item => {
               <div>
                 <header style={{ marginBottom: '25px', textAlign: 'center' }}>
   <h1 style={{ margin: '0', fontSize: '32px', fontWeight: '900', color: '#66001f' }}>
-    GRUB<span style={{ color: '#fd9a0' }}>GO</span>
+    GRUB<span style={{ color: '#fd9a00' }}>GO</span>
   </h1>
-  <p style={{ margin: '5px 0 20px 0', fontSize: '14px', color: #3b010b', fontStyle: 'italic' }}>
+  <p style={{ margin: '5px 0 20px 0', fontSize: '14px', color: '#3b010b', fontStyle: 'italic' }}>
     “Be as picky as you feel”
   </p>
 
