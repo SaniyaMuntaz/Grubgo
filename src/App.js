@@ -4,24 +4,7 @@ import {
   Home as HomeIcon, Compass, ShoppingBag, 
   Search, Phone, Star, Clock, Truck 
 } from 'lucide-react';
-function MapComponent({ mapRef, initMap }) {
-  useEffect(() => {
-    // Only run if the div (mapRef.current) is actually ready
-    if (mapRef.current) {
-      initMap();
-    }
-  }, [initMap, mapRef]); 
 
-  return (
-    <div 
-      ref={mapRef} 
-      style={mapContainerStyle} 
-      id="google-map-container"
-    >
-      {!window.google && <p style={{color: '#666', padding: '20px'}}>Loading Map...</p>}
-    </div>
-  );
-}
 export default function App() {
   const [restaurants, setRestaurants] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
