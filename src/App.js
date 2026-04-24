@@ -70,7 +70,7 @@ export default function App() {
     icon: {
       path: window.google.maps.SymbolPath.CIRCLE,
       scale: 10,
-      fillColor: "#3897f0",
+      fillColor: "#cdd7df",
       fillOpacity: 1,
       strokeWeight: 2,
       strokeColor: "#fff",
@@ -151,8 +151,8 @@ const filteredFeed = restaurants.filter(item => {
             <Route path="/" element={
               <div>
                 <header style={{ marginBottom: '25px', textAlign: 'center' }}>
-  <h1 style={{ margin: '0', fontSize: '32px', fontWeight: '900', color: '#000' }}>
-    GRUB<span style={{ color: '#39FF14' }}>GO</span>
+  <h1 style={{ margin: '0', fontSize: '32px', fontWeight: '900', color: '#dedbdf' }}>
+    GRUB<span style={{ color: '#3e6985' }}>GO</span>
   </h1>
   <p style={{ margin: '5px 0 20px 0', fontSize: '14px', color: '#666', fontStyle: 'italic' }}>
     “Be as picky as you feel”
