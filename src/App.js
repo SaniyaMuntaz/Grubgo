@@ -24,7 +24,7 @@ export default function App() {
   const endpoint = isRegistering ? 'register' : 'login';
   
   try {
-    const res = await fetch(`https://your-backend-link.onrender.com/api/${endpoint}`, {
+    const res = await fetch("https://grubgo-backend-5u6u.onrender.com/api/restaurants", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(loginData)
