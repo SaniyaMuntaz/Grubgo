@@ -36,7 +36,10 @@ export default function App() {
       // 1. Save the token
       localStorage.setItem('token', data.token);
       // 2. Force React to update the UI
-      setIsLoggedIn(true); 
+      if (data.token) {
+  localStorage.setItem('token', data.token);
+  window.location.reload(); // This forces the whole page to refresh and "see" the new token
+} 
       console.log("Login Successful!");
     } else {
       alert(data.message || "Login failed. Check your username/password.");
