@@ -102,6 +102,7 @@ export default function App() {
 
  // This maps the slider (1-100) to your 4 database categories
 const getMoodDetails = (value) => {
+  const sliderTagline = "Slide into the right flavour.";
   if (value < 25) return { label: "🥨 Quick Snack", category: "Quick Snack" };
   if (value < 50) return { label: "🥗 Balanced", category: "Balanced" };
   if (value < 75) return { label: "🥘 Full Meal", category: "Full Meal" };
@@ -154,7 +155,14 @@ const filteredFeed = restaurants.filter(item => {
   <p style={{ margin: '5px 0 20px 0', fontSize: '14px', color: '#666', fontStyle: 'italic' }}>
     “Be as picky as you feel”
   </p>
-
+  <p style={{ 
+  fontSize: '12px', 
+  color: '#888', 
+  marginBottom: '10px', 
+  fontWeight: '500' 
+}}>
+  {currentMood.tagline}
+</p>
   <div style={moodBox}>
     <p style={{ fontSize: '12px', color: '#888', marginBottom: '10px' }}>
       Mood: <span style={{ color: '#39FF14', fontWeight: 'bold' }}>
@@ -213,7 +221,9 @@ const filteredFeed = restaurants.filter(item => {
             <Route path="/spin" element={
   <div style={{ textAlign: 'center', padding: '20px' }}>
     <h2 style={{ color: '#39FF14', letterSpacing: '2px' }}>MOOD WHEEL</h2>
-    
+    <p style={{ color: '#666', fontSize: '14px', marginBottom: '20px', fontStyle: 'italic' }}>
+      “Too hangry to decide? We will make the go.”
+    </p>
     <div style={{ position: 'relative', width: '320px', height: '320px', margin: '40px auto' }}>
       {/* The Arrow/Pointer */}
       <div style={{
@@ -307,7 +317,8 @@ const filteredFeed = restaurants.filter(item => {
                 <h2 style={{ color: '#39FF14' }}>Your Cart</h2>
                 <div style={{ padding: '40px', border: '1px dashed #333', borderRadius: '20px' }}>
                   <ShoppingBag size={48} color="#333" style={{ marginBottom: '10px' }} />
-                  <p style={{ color: '#888' }}>Cart is empty</p>
+                 <h3 style={{ color: '#000', margin: '0 0 10px 0' }}>Capture the loot</h3>
+                 <p style={{ color: '#888', fontSize: '14px' }}>Your bag is looking a bit light.</p>
                 </div>
               </div>
             } />
