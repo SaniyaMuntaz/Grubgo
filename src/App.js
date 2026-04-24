@@ -151,16 +151,16 @@ const filteredFeed = restaurants.filter(item => {
             <Route path="/" element={
               <div>
                 <header style={{ marginBottom: '25px', textAlign: 'center' }}>
-  <h1 style={{ margin: '0', fontSize: '32px', fontWeight: '900', color: '#dedbdf' }}>
+  <h1 style={{ margin: '0', fontSize: '32px', fontWeight: '900', color: '#011c40' }}>
     GRUB<span style={{ color: '#3e6985' }}>GO</span>
   </h1>
-  <p style={{ margin: '5px 0 20px 0', fontSize: '14px', color: '#666', fontStyle: 'italic' }}>
+  <p style={{ margin: '5px 0 20px 0', fontSize: '14px', color: '#49769f', fontStyle: 'italic' }}>
     “Be as picky as you feel”
   </p>
 
   <div style={moodBox}>
-    <p style={{ fontSize: '12px', color: '#888', marginBottom: '10px' }}>
-      Mood: <span style={{ color: '#39FF14', fontWeight: 'bold' }}>
+    <p style={{ fontSize: '12px', color: '#d6e8ee', marginBottom: '10px' }}>
+      Mood: <span style={{ color: '#a987a8', fontWeight: 'bold' }}>
         {currentMood.label}
       </span>
     </p>
