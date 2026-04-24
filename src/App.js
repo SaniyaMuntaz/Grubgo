@@ -14,41 +14,10 @@ export default function App() {
   const [rotation, setRotation] = useState(0);
   const [orderStatus, setOrderStatus] = useState(0); 
   const [userPos, setUserPos] = useState({ lat: 17.4483, lng: 78.3915 }); 
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
-  const [loginData, setLoginData] = useState({ username: '', password: '' });
-  const [isRegistering, setIsRegistering] = useState(false);
+
   const mapRef = useRef(null);
   const googleMap = useRef(null);
-  const handleAuth = async (e) => {
-  e.preventDefault();
-  const endpoint = isRegistering ? 'register' : 'login';
-  
-  try {
-    const res = await fetch('https://grubgo-backend-5u6u.onrender.com/api/${endpoint}', {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(loginData)
-    });
-    
-    const data = await res.json();
-    
-    if (res.ok && data.token) {
-      // 1. Save the token
-      localStorage.setItem('token', data.token);
-      // 2. Force React to update the UI
-      if (data.token) {
-  localStorage.setItem('token', data.token);
-  window.location.reload(); // This forces the whole page to refresh and "see" the new token
-} 
-      console.log("Login Successful!");
-    } else {
-      alert(data.message || "Login failed. Check your username/password.");
-    }
-  } catch (err) {
-    console.error("Connection error:", err);
-    alert("Cannot connect to server. Is the Backend URL correct?");
-  }
-};
+
 
   // --- STYLES (Moved inside or defined clearly) ---
   const compactCardStyle = {
@@ -169,37 +138,7 @@ export default function App() {
     setWinner(filteredFeed[winnerIndex]);
   }, 4000); // Must match the transition time in CSS
 };
-// --- 3. THE SECURITY GUARD ---
-  if (!isLoggedIn) {
-    return (
-      <div style={{ minHeight: '100vh', backgroundColor: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', padding: '20px' }}>
-        <div style={{ background: '#111', padding: '30px', borderRadius: '24px', border: '1px solid #222', width: '100%', maxWidth: '350px', textAlign: 'center' }}>
-          <h1 style={{ color: '#39FF14', letterSpacing: '3px', marginBottom: '10px' }}>GRUBGO</h1>
-          <p style={{ color: '#666', fontSize: '14px', marginBottom: '20px' }}>
-            {isRegistering ? "Create your foodie account" : "Log in to start eating"}
-          </p>
-          
-          <form onSubmit={handleAuth} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-            <input 
-              type="text" placeholder="Username" style={searchInputStyle} 
-              onChange={(e) => setLoginData({...loginData, username: e.target.value})} 
-            />
-            <input 
-              type="password" placeholder="Password" style={searchInputStyle} 
-              onChange={(e) => setLoginData({...loginData, password: e.target.value})} 
-            />
-            <button type="submit" style={btnLarge}>
-              {isRegistering ? "CREATE ACCOUNT" : "LOG IN"}
-            </button>
-          </form>
 
-          <p onClick={() => setIsRegistering(!isRegistering)} style={{ marginTop: '20px', fontSize: '12px', color: '#39FF14', cursor: 'pointer' }}>
-            {isRegistering ? "Already have an account? Log in" : "New here? Create an account"}
-          </p>
-        </div>
-      </div>
-    );
-  }
   return (
     <Router>
       <div style={{ minHeight: '100vh', backgroundColor: '#fff', color: 'white', fontFamily: 'sans-serif' }}>
