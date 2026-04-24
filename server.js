@@ -1,15 +1,12 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
-
+import bcrypt from 'bcryptjs'; // New
+import jwt from 'jsonwebtoken';
 const app = express();
-
-
-const User = mongoose.model('User', userSchema);
-
 app.use(cors());
 app.use(express.json());
-
+const JWT_SECRET = process.env.JWT_SECRET
 // 1. CONNECT TO MONGODB (Ensure MongoDB Compass is installed/open)
 // This tells the code: "Use the Cloud link if it exists, otherwise use localhost"
 // This tells your code to use the cloud link if provided (by Render), 
@@ -30,7 +27,11 @@ const restaurantSchema = new mongoose.Schema({
 });
 
 const Restaurant = mongoose.model('Restaurant', restaurantSchema);
-
+const userSchema = new mongoose.Schema({
+  username: { type: String, required: true, unique: true },
+  password: { type: String, required: true }
+});
+const User = mongoose.model('User', userSchema);
 // 3. API ROUTE: GET ALL RESTAURANTS
 app.get('/api/restaurants', async (req, res) => {
   try {
