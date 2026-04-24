@@ -4,7 +4,24 @@ import {
   Home as HomeIcon, Compass, ShoppingBag, 
   Search, Phone, Star, Clock, Truck 
 } from 'lucide-react';
+function MapComponent({ mapRef, initMap }) {
+  useEffect(() => {
+    // Only run if the div (mapRef.current) is actually ready
+    if (mapRef.current) {
+      initMap();
+    }
+  }, [initMap, mapRef]); 
 
+  return (
+    <div 
+      ref={mapRef} 
+      style={mapContainerStyle} 
+      id="google-map-container"
+    >
+      {!window.google && <p style={{color: '#666', padding: '20px'}}>Loading Map...</p>}
+    </div>
+  );
+}
 export default function App() {
   const [restaurants, setRestaurants] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -52,55 +69,52 @@ export default function App() {
   }, []);
 
   const initMap = React.useCallback(() => {
+  // CRITICAL: Stop if Google isn't loaded or the Div is missing
   if (!window.google || !mapRef.current) return;
 
-  // 1. Create the Map centered on the User
-  googleMap.current = new window.google.maps.Map(mapRef.current, {
-    center: userPos, 
-    zoom: 14, 
-    styles: ultraCleanMapStyle, 
-    disableDefaultUI: true
-  });
+  try {
+    googleMap.current = new window.google.maps.Map(mapRef.current, {
+      center: userPos, 
+      zoom: 14, 
+      styles: ultraCleanMapStyle, 
+      disableDefaultUI: true
+    });
 
-  // 2. Add a special Blue Marker for the User (You)
-  new window.google.maps.Marker({
-    position: userPos,
-    map: googleMap.current,
-    title: "You are here",
-    icon: {
-      path: window.google.maps.SymbolPath.CIRCLE,
-      scale: 10,
-      fillColor: "#3897f0",
-      fillOpacity: 1,
-      strokeWeight: 2,
-      strokeColor: "#fff",
-    }
-  });
-
-  // 3. Add Red Markers for every Restaurant in your Database
-  restaurants.forEach(res => {
-    if (res.lat && res.lng) {
-      const marker = new window.google.maps.Marker({
-        position: { lat: parseFloat(res.lat), lng: parseFloat(res.lng) },
+    // Only add markers if the map was actually created
+    if (googleMap.current) {
+      new window.google.maps.Marker({
+        position: userPos,
         map: googleMap.current,
-        title: res.name,
-        // Optional: Custom icon for restaurants
+        title: "You are here",
         icon: {
-          url: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
-          scaledSize: new window.google.maps.Size(35, 35)
+          path: window.google.maps.SymbolPath.CIRCLE,
+          scale: 10,
+          fillColor: "#3897f0",
+          fillOpacity: 1,
+          strokeWeight: 2,
+          strokeColor: "#fff",
         }
       });
 
-      // 4. Add a click popup (InfoWindow) to show the restaurant name
-      const infoWindow = new window.google.maps.InfoWindow({
-        content: `<div style="color:black;"><strong>${res.name}</strong><br/>${res.dish}</div>`
-      });
+      restaurants.forEach(res => {
+        if (res.lat && res.lng) {
+          const marker = new window.google.maps.Marker({
+            position: { lat: parseFloat(res.lat), lng: parseFloat(res.lng) },
+            map: googleMap.current,
+            title: res.name
+          });
+          
+          const infoWindow = new window.google.maps.InfoWindow({
+            content: `<div style="color:black;"><strong>${res.name}</strong></div>`
+          });
 
-      marker.addListener("click", () => {
-        infoWindow.open(googleMap.current, marker);
+          marker.addListener("click", () => infoWindow.open(googleMap.current, marker));
+        }
       });
     }
-  });
+  } catch (err) {
+    console.error("Map initialization failed:", err);
+  }
 }, [userPos, restaurants]);
 
  // This maps the slider (1-100) to your 4 database categories
