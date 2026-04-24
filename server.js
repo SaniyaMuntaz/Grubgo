@@ -15,7 +15,9 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true }
 });
 const User = mongoose.model('User', userSchema);
-
+app.get('/', (req, res) => {
+  res.send("🚀 GrubGo Backend is Running!");
+});
 // 2. Register Route (To create an account)
 app.post('/api/register', async (req, res) => {
   try {
