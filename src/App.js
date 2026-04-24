@@ -21,13 +21,13 @@ export default function App() {
 
   // --- STYLES (Moved inside or defined clearly) ---
   const compactCardStyle = {
-    background: '#fff', padding: '12px 16px', borderRadius: '16px',
+    background: '#f2edb6', padding: '12px 16px', borderRadius: '16px',
     marginBottom: '10px', border: '1px solid #a6bed1', display: 'flex',
     alignItems: 'center', justifyContent: 'space-between'
   };
 
   const iconBoxStyle = {
-    width: '50px', height: '50px', background: '#a6bed1',
+    width: '50px', height: '50px', background: '#a86f44',
     borderRadius: '12px', display: 'flex', alignItems: 'center',
     justifyContent: 'center', fontSize: '24px', border: '1px solid #333'
   };
