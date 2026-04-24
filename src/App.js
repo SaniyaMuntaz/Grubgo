@@ -152,15 +152,15 @@ const filteredFeed = restaurants.filter(item => {
               <div>
                 <header style={{ marginBottom: '25px', textAlign: 'center' }}>
   <h1 style={{ margin: '0', fontSize: '32px', fontWeight: '900', color: '#66001f' }}>
-    GRUB<span style={{ color: '#474c80' }}>GO</span>
+    GRUB<span style={{ color: '#fd9a0' }}>GO</span>
   </h1>
-  <p style={{ margin: '5px 0 20px 0', fontSize: '14px', color: '#3e0000c', fontStyle: 'italic' }}>
+  <p style={{ margin: '5px 0 20px 0', fontSize: '14px', color: #3b010b', fontStyle: 'italic' }}>
     “Be as picky as you feel”
   </p>
 
   <div style={moodBox}>
-    <p style={{ fontSize: '12px', color: '#78011e', marginBottom: '10px' }}>
-      Mood: <span style={{ color: '#4a0011', fontWeight: 'bold' }}>
+    <p style={{ fontSize: '12px', color: '#f2d9a0', marginBottom: '10px' }}>
+      Mood: <span style={{ color: '#f2e5c6', fontWeight: 'bold' }}>
         {currentMood.label}
       </span>
     </p>
@@ -173,7 +173,7 @@ const filteredFeed = restaurants.filter(item => {
       style={sliderStyle} 
     />
     {/* Visual indicators for the 4 zones */}
-    <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '5px', fontSize: '10px', color: '#ccc' }}>
+    <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '5px', fontSize: '10px', color: '#fefcef' }}>
       <span>Snack</span>
       <span>Healthy</span>
       <span>Heavy</span>
@@ -182,7 +182,7 @@ const filteredFeed = restaurants.filter(item => {
   </div>
 
   <div style={searchBarWrapper}>
-    <Search size={20} color="#666" />
+    <Search size={20} color="#fff7ec" />
     <input 
       type="text" 
       placeholder="Search for a craving..." 
@@ -196,13 +196,13 @@ const filteredFeed = restaurants.filter(item => {
                     <div style={iconBoxStyle}>{mood < 35 ? "🥨" : mood > 75 ? "🥘" : "🍱"}</div>
                     <div style={{ flex: 1, marginLeft: '15px' }}>
                       <h4 style={{ margin: 0, fontSize: '16px' }}>{res.name}</h4>
-                      <p style={{ margin: '2px 0 0 0', fontSize: '12px', color: '#888' }}>{res.dish}</p>
+                      <p style={{ margin: '2px 0 0 0', fontSize: '12px', color: '#474c80' }}>{res.dish}</p>
                     </div>
                     <div style={{ textAlign: 'right' }}>
-                      <div style={{ color: '#39FF14', fontSize: '14px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <div style={{ color: '#f6e9d9', fontSize: '14px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '4px' }}>
                         <Star size={14} fill="#39FF14" /> {res.rating}
                       </div>
-                      <div style={{ fontSize: '10px', color: '#555', marginTop: '4px' }}>
+                      <div style={{ fontSize: '10px', color: '#ffeda8', marginTop: '4px' }}>
                         <Clock size={10} /> 25 min
                       </div>
                     </div>
