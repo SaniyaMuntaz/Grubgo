@@ -33,6 +33,9 @@ const userSchema = new mongoose.Schema({
 });
 const User = mongoose.model('User', userSchema);
 // 3. API ROUTE: GET ALL RESTAURANTS
+app.get('/', (req, res) => {
+  res.send("🚀 GrubGo Backend is Running!");
+});
 app.get('/api/restaurants', async (req, res) => {
   const stores = await Restaurant.find();
   res.json(stores);
@@ -53,13 +56,20 @@ app.post('/api/register', async (req, res) => {
 
 // 3. Login User (New)
 app.post('/api/login', async (req, res) => {
-  const { username, password } = req.body;
-  const user = await User.findOne({ username });
-  if (user && await bcrypt.compare(password, user.password)) {
-    const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1h' });
-    res.json({ token, username: user.username });
-  } else {
-    res.status(401).json({ message: "Invalid credentials" });
+  try {
+    const { username, password } = req.body;
+    const user = await User.findOne({ username });
+    
+    if (user && await bcrypt.compare(password, user.password)) {
+      // Sign the token
+      const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1h' });
+      res.json({ token, username: user.username });
+    } else {
+      res.status(401).json({ message: "Invalid username or password" });
+    }
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).json({ message: "Internal server error during login" });
   }
 });
 
