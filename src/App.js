@@ -33,7 +33,7 @@ export default function App() {
   };
 
   useEffect(() => {
-    fetch("https://grubgo-4gwb.onrender.com/api/restaurants")
+    fetch("https://grubgo-backend-5u6u.onrender.com/api/restaurants")
       .then(res => {
         if (!res.ok) throw new Error("Backend not responding");
         return res.json();
