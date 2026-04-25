@@ -27,9 +27,9 @@ export default function App() {
   };
 
   const iconBoxStyle = {
-    width: '50px', height: '50px', background: '#a6bed1',
+    width: '50px', height: '50px', background: '#daa63e',
     borderRadius: '12px', display: 'flex', alignItems: 'center',
-    justifyContent: 'center', fontSize: '24px', border: '1px solid #333'
+    justifyContent: 'center', fontSize: '24px', border: '1px solid #442216'
   };
 
   useEffect(() => {
@@ -149,10 +149,10 @@ const filteredFeed = restaurants.filter(item => {
             <Route path="/" element={
               <div>
                <header style={{ marginBottom: '25px', textAlign: 'center' }}>
-  <h1 style={{ margin: '0', fontSize: '32px', fontWeight: '900', color: '#000' }}>
-    GRUB<span style={{ color: '#39FF14' }}>GO</span>
+  <h1 style={{ margin: '0', fontSize: '32px', fontWeight: '900', color: '#442216' }}>
+    GRUB<span style={{ color: '#7a002b' }}>GO</span>
   </h1>
-  <p style={{ margin: '5px 0 20px 0', fontSize: '14px', color: '#666', fontStyle: 'italic' }}>
+  <p style={{ margin: '5px 0 20px 0', fontSize: '20px', color: '#3e0014', fontStyle: 'italic' }}>
     “Be as picky as you feel”
   </p>
   <p style={{ 
@@ -164,8 +164,8 @@ const filteredFeed = restaurants.filter(item => {
   {currentMood.tagline}
 </p>
   <div style={moodBox}>
-    <p style={{ fontSize: '12px', color: '#888', marginBottom: '10px' }}>
-      Mood: <span style={{ color: '#39FF14', fontWeight: 'bold' }}>
+    <p style={{ fontSize: '12px', color: '#2c0415', marginBottom: '10px' }}>
+      Mood: <span style={{ color: '#b32e33', fontWeight: 'bold' }}>
         {currentMood.label}
       </span>
     </p>
@@ -178,7 +178,7 @@ const filteredFeed = restaurants.filter(item => {
       style={sliderStyle} 
     />
     {/* Visual indicators for the 4 zones */}
-    <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '5px', fontSize: '10px', color: '#ccc' }}>
+    <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '5px', fontSize: '10px', color: '#c28d39' }}>
       <span>Snack</span>
       <span>Healthy</span>
       <span>Heavy</span>
@@ -187,7 +187,7 @@ const filteredFeed = restaurants.filter(item => {
   </div>
 
   <div style={searchBarWrapper}>
-    <Search size={20} color="#666" />
+    <Search size={20} color="#7f110e" />
     <input 
       type="text" 
       placeholder="Search for a craving..." 
