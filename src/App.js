@@ -241,7 +241,7 @@ const filteredFeed = restaurants.filter(item => {
         transform: `rotate(${rotation}deg)`,
         background: `conic-gradient(${
           filteredFeed.map((_, i) => 
-            `${i % 2 === 0 ? '#39FF14' : '#111'} ${(360/filteredFeed.length) * i}deg ${(360/filteredFeed.length) * (i+1)}deg`
+            `${i % 2 === 0 ? '#ffe9ec' : '#66021f'} ${(360/filteredFeed.length) * i}deg ${(360/filteredFeed.length) * (i+1)}deg`
           ).join(', ')
         })`
       }}>
@@ -271,7 +271,7 @@ const filteredFeed = restaurants.filter(item => {
         transform: 'rotate(90deg)', // Keep them vertical
         fontSize: '10px',
         fontWeight: '900',
-        color: i % 2 === 0 ? '#000' : '#FFF',
+        color: i % 2 === 0 ? '#66021f' : '#FFe9ec',
         whiteSpace: 'nowrap',
         textTransform: 'uppercase',
         letterSpacing: '0.5px'
@@ -305,8 +305,8 @@ const filteredFeed = restaurants.filter(item => {
 
     {winner && !isSpinning && (
       <div style={{ marginTop: '20px', animation: 'fadeIn 0.5s' }}>
-        <p style={{ color: '#888' }}>Go to:</p>
-        <h3 style={{ color: '#39FF14' }}>{winner.name}</h3>
+        <p style={{ color: '#fcdbdb' }}>Go to:</p>
+        <h3 style={{ color: '#800020' }}>{winner.name}</h3>
       </div>
     )}
   </div>
@@ -314,22 +314,22 @@ const filteredFeed = restaurants.filter(item => {
             
             <Route path="/cart" element={
               <div style={{ textAlign: 'center', padding: '20px' }}>
-                <h2 style={{ color: '#39FF14' }}>Your Cart</h2>
+                <h2 style={{ color: '#c28d39' }}>Your Cart</h2>
                 <div style={{ padding: '40px', border: '1px dashed #333', borderRadius: '20px' }}>
-                  <ShoppingBag size={48} color="#333" style={{ marginBottom: '10px' }} />
-                 <h3 style={{ color: '#000', margin: '0 0 10px 0' }}>Capture the loot</h3>
-                 <p style={{ color: '#888', fontSize: '14px' }}>Your bag is looking a bit light.</p>
+                  <ShoppingBag size={48} color="#7a002b" style={{ marginBottom: '10px' }} />
+                 <h3 style={{ color: '#e8a80a', margin: '0 0 10px 0' }}>Capture the loot</h3>
+                 <p style={{ color: '#640409', fontSize: '14px' }}>Your bag is looking a bit light.</p>
                 </div>
               </div>
             } />
 
             <Route path="/track" element={
               <div style={{ textAlign: 'center' }}>
-                <h2 style={{ color: '#39FF14' }}>Live Tracking</h2>
+                <h2 style={{ color: '#640606' }}>Live Tracking</h2>
                 <div style={stepperWrapper}>
                     {['Placed', 'Kitchen', 'Rider', 'Arrived'].map((step, i) => (
                         <div key={step} style={{ textAlign: 'center', opacity: orderStatus >= i ? 1 : 0.3 }}>
-                            <div style={{...dotStyle, backgroundColor: orderStatus >= i ? '#39FF14' : '#444'}}></div>
+                            <div style={{...dotStyle, backgroundColor: orderStatus >= i ? '#6e151a' : '#c28d39'}}></div>
                             <p style={{fontSize:'10px', marginTop: '5px'}}>{step}</p>
                         </div>
                     ))}
@@ -374,11 +374,11 @@ function MapComponent({ mapRef, initMap }) {
 }
 
 // --- REMAINING STYLES ---
-const navStyle = { position: 'fixed', bottom: 0, width: '100%', height: '80px', display: 'flex', justifyContent: 'space-around', alignItems: 'center', background: '#fefcef', borderTop:'1px solid #222', zIndex: 1000 };
+const navStyle = { position: 'fixed', bottom: 0, width: '100%', height: '80px', display: 'flex', justifyContent: 'space-around', alignItems: 'center', background: '#fefcef', borderTop:'1px solid #c28d39', zIndex: 1000 };
 const navItem = { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' };
 const navText = { fontSize: '9px', fontWeight: 'bold', textTransform: 'uppercase' };
 const moodBox = { background: '#f0e7d5', padding: '15px', borderRadius: '15px', marginBottom: '15px', border: '1px solid #45171b' };
-const sliderStyle = { width: '100%', accentColor: '#39FF14' };
+const sliderStyle = { width: '100%', accentColor: '#c28d39' };
 const ultraCleanMapStyle = [{ elementType: "geometry", stylers: [{ color: "#212121" }] }, { featureType: "poi", elementType: "all", stylers: [{ visibility: "off" }] }];
 const mapContainerStyle = { height: '350px', width: '100%', borderRadius: '24px', margin: '15px 0', border: '1px solid #351018' };
 const searchBarWrapper = { background: '#e8d8c4', display: 'flex', padding: '12px', borderRadius: '15px' };
