@@ -374,7 +374,7 @@ function MapComponent({ mapRef, initMap }) {
 }
 
 // --- REMAINING STYLES ---
-const navStyle = { position: 'fixed', bottom: 0, width: '100%', height: '80px', display: 'flex', justifyContent: 'space-around', alignItems: 'center', background: '#fefcef', borderTop:'1px solid #c28d39', zIndex: 1000 };
+const navStyle = { position: 'fixed', bottom: 0, width: '100%', height: '80px', display: 'flex', justifyContent: 'space-around', alignItems: 'center', background: '#f0e7d5', borderTop:'1px solid #c28d39', zIndex: 1000 };
 const navItem = { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' };
 const navText = { fontSize: '9px', fontWeight: 'bold', textTransform: 'uppercase' };
 const moodBox = { background: '#f0e7d5', padding: '15px', borderRadius: '15px', marginBottom: '15px', border: '1px solid #45171b' };
