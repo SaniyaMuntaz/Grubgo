@@ -207,7 +207,7 @@ const filteredFeed = restaurants.filter(item => {
                       <div style={{ color: '#66021f', fontSize: '14px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '4px' }}>
                         <Star size={14} fill="#66021f" /> {res.rating}
                       </div>
-                      <div style={{ fontSize: '10px', color: '#4443820', marginTop: '4px' }}>
+                      <div style={{ fontSize: '10px', color: '#440200', marginTop: '4px' }}>
                         <Clock size={10} /> 25 min
                       </div>
                     </div>
