@@ -339,8 +339,8 @@ const filteredFeed = restaurants.filter(item => {
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                     <div style={{fontSize:'28px'}}>🚴</div>
                     <div style={{textAlign:'left'}}>
-                      <h4 style={{margin:0}}>Arjun K.</h4>
-                      <p style={{margin:0, fontSize:'11px', color:'#888'}}>Honda Activa • On the way</p>
+                      <h4 style={{margin:0, fontsize:'20px', color:'#70020f'}}>Arjun K.</h4>
+                      <p style={{margin:0, fontSize:'11px', color:'#550d0e'}}>Honda Activa • On the way</p>
                     </div>
                   </div>
                   <button style={callButtonStyle}><Phone size={14}/> Call</button>
