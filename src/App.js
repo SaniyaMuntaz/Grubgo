@@ -374,19 +374,19 @@ function MapComponent({ mapRef, initMap }) {
 }
 
 // --- REMAINING STYLES ---
-const navStyle = { position: 'fixed', bottom: 0, width: '100%', height: '80px', display: 'flex', justifyContent: 'space-around', alignItems: 'center', background: '#000', borderTop:'1px solid #222', zIndex: 1000 };
+const navStyle = { position: 'fixed', bottom: 0, width: '100%', height: '80px', display: 'flex', justifyContent: 'space-around', alignItems: 'center', background: '#fefcef', borderTop:'1px solid #222', zIndex: 1000 };
 const navItem = { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' };
 const navText = { fontSize: '9px', fontWeight: 'bold', textTransform: 'uppercase' };
-const moodBox = { background: '#111', padding: '15px', borderRadius: '15px', marginBottom: '15px', border: '1px solid #222' };
+const moodBox = { background: '#f0e7d5', padding: '15px', borderRadius: '15px', marginBottom: '15px', border: '1px solid #45171b' };
 const sliderStyle = { width: '100%', accentColor: '#39FF14' };
 const ultraCleanMapStyle = [{ elementType: "geometry", stylers: [{ color: "#212121" }] }, { featureType: "poi", elementType: "all", stylers: [{ visibility: "off" }] }];
-const mapContainerStyle = { height: '350px', width: '100%', borderRadius: '24px', margin: '15px 0', border: '1px solid #333' };
-const searchBarWrapper = { background: '#111', display: 'flex', padding: '12px', borderRadius: '15px' };
+const mapContainerStyle = { height: '350px', width: '100%', borderRadius: '24px', margin: '15px 0', border: '1px solid #351018' };
+const searchBarWrapper = { background: '#e8d8c4', display: 'flex', padding: '12px', borderRadius: '15px' };
 const searchInputStyle = { background: 'transparent', border: 'none', color: 'white', width: '100%', outline: 'none', marginLeft: '10px' };
 const linkStyle = { color: '#39FF14', textDecoration: 'none' };
 const btnStyle = { background: '#39FF14', color: 'black', border: 'none', padding: '12px 24px', borderRadius: '30px', fontWeight: 'bold' };
 const btnLarge = { ...btnStyle, width: '100%', marginTop: '10px' };
 const stepperWrapper = { display: 'flex', justifyContent: 'space-around', margin: '15px 0' };
 const dotStyle = { width: '8px', height: '8px', borderRadius: '50%', margin: '0 auto' };
-const riderCardStyle = { background: '#111', padding: '16px', borderRadius: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid #222', marginTop: '10px' };
+const riderCardStyle = { background: '#ffflcf', padding: '16px', borderRadius: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid #222', marginTop: '10px' };
 const callButtonStyle = { background: 'transparent', border: '1px solid #39FF14', color: '#39FF14', padding: '8px 18px', borderRadius: '20px' };
