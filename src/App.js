@@ -289,11 +289,11 @@ const filteredFeed = restaurants.filter(item => {
   left: '50%',
   width: '50px',
   height: '50px',
-  backgroundColor: '#1a1a1a',
+  backgroundColor: '#f9f6ee',
   borderRadius: '50%',
   transform: 'translate(-50%, -50%)',
   zIndex: 20,
-  border: '4px solid #39FF14',
+  border: '4px solid #781c26',
   boxShadow: '0 0 15px rgba(57, 255, 20, 0.4)'
 }}></div>
       </div>
