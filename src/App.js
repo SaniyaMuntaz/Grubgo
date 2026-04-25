@@ -201,13 +201,13 @@ const filteredFeed = restaurants.filter(item => {
                     <div style={iconBoxStyle}>{mood < 35 ? "🥨" : mood > 75 ? "🥘" : "🍱"}</div>
                     <div style={{ flex: 1, marginLeft: '15px' }}>
                       <h4 style={{ margin: 0, fontSize: '16px' }}>{res.name}</h4>
-                      <p style={{ margin: '2px 0 0 0', fontSize: '12px', color: '#888' }}>{res.dish}</p>
+                      <p style={{ margin: '2px 0 0 0', fontSize: '12px', color: '#66021f' }}>{res.dish}</p>
                     </div>
                     <div style={{ textAlign: 'right' }}>
-                      <div style={{ color: '#39FF14', fontSize: '14px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                        <Star size={14} fill="#39FF14" /> {res.rating}
+                      <div style={{ color: '#66021f', fontSize: '14px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <Star size={14} fill="#66021f" /> {res.rating}
                       </div>
-                      <div style={{ fontSize: '10px', color: '#555', marginTop: '4px' }}>
+                      <div style={{ fontSize: '10px', color: '#4443820', marginTop: '4px' }}>
                         <Clock size={10} /> 25 min
                       </div>
                     </div>
@@ -219,9 +219,9 @@ const filteredFeed = restaurants.filter(item => {
             
   
             <Route path="/spin" element={
-  <div style={{ textAlign: 'center', padding: '20px' }}>
-    <h2 style={{ color: '#39FF14', letterSpacing: '2px' }}>MOOD WHEEL</h2>
-    <p style={{ color: '#666', fontSize: '14px', marginBottom: '20px', fontStyle: 'italic' }}>
+  <div style={{ textAlign: 'center', padding: '30px' }}>
+    <h2 style={{ color: '#7a051f', letterSpacing: '2px' }}>MOOD WHEEL</h2>
+    <p style={{ color: '#84592b', fontSize: '14px', marginBottom: '20px', fontStyle: 'italic' }}>
       “Too hangry to decide? We will make the go.”
     </p>
     <div style={{ position: 'relative', width: '320px', height: '320px', margin: '40px auto' }}>
@@ -235,7 +235,7 @@ const filteredFeed = restaurants.filter(item => {
       <div style={{
         width: '100%', height: '100%', borderRadius: '50%',
         position: 'relative', overflow: 'hidden',
-        border: '8px solid #1a1a1a',
+        border: '8px solid #cd7a3e',
         boxShadow: '0 0 40px rgba(57, 255, 20, 0.2)',
         transition: 'transform 4s cubic-bezier(0.15, 0, 0.15, 1)', // Smooth slow-down
         transform: `rotate(${rotation}deg)`,
@@ -305,7 +305,7 @@ const filteredFeed = restaurants.filter(item => {
 
     {winner && !isSpinning && (
       <div style={{ marginTop: '20px', animation: 'fadeIn 0.5s' }}>
-        <p style={{ color: '#fcdbdb' }}>Go to:</p>
+        <p style={{ color: '#b47a21' }}>Go to:</p>
         <h3 style={{ color: '#800020' }}>{winner.name}</h3>
       </div>
     )}
@@ -383,10 +383,10 @@ const ultraCleanMapStyle = [{ elementType: "geometry", stylers: [{ color: "#2121
 const mapContainerStyle = { height: '350px', width: '100%', borderRadius: '24px', margin: '15px 0', border: '1px solid #351018' };
 const searchBarWrapper = { background: '#e8d8c4', display: 'flex', padding: '12px', borderRadius: '15px' };
 const searchInputStyle = { background: 'transparent', border: 'none', color: 'white', width: '100%', outline: 'none', marginLeft: '10px' };
-const linkStyle = { color: '#39FF14', textDecoration: 'none' };
-const btnStyle = { background: '#39FF14', color: 'black', border: 'none', padding: '12px 24px', borderRadius: '30px', fontWeight: 'bold' };
+const linkStyle = { color: '#66021f', textDecoration: 'none' };
+const btnStyle = { background: '#f7ca84', color: 'black', border: 'none', padding: '12px 24px', borderRadius: '30px', fontWeight: 'bold' };
 const btnLarge = { ...btnStyle, width: '100%', marginTop: '10px' };
-const stepperWrapper = { display: 'flex', justifyContent: 'space-around', margin: '15px 0' };
+const stepperWrapper = { display: 'flex', justifyContent: 'space-around', margin: '15px 0',color:'70020f' };
 const dotStyle = { width: '8px', height: '8px', borderRadius: '50%', margin: '0 auto' };
-const riderCardStyle = { background: '#ffflcf', padding: '16px', borderRadius: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid #222', marginTop: '10px' };
-const callButtonStyle = { background: 'transparent', border: '1px solid #39FF14', color: '#39FF14', padding: '8px 18px', borderRadius: '20px' };
+const riderCardStyle = { background: '#ffflcf', padding: '16px', borderRadius: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid #301415', marginTop: '10px' };
+const callButtonStyle = { background: 'transparent', border: '1px solid #9f6920', color: '#670626', padding: '8px 18px', borderRadius: '20px' };
