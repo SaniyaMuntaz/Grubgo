@@ -200,7 +200,7 @@ const filteredFeed = restaurants.filter(item => {
                   <div key={res._id} style={compactCardStyle}>
                     <div style={iconBoxStyle}>{mood < 35 ? "🥨" : mood > 75 ? "🥘" : "🍱"}</div>
                     <div style={{ flex: 1, marginLeft: '15px' }}>
-                      <h4 style={{ margin: 0, fontSize: '16px' }}>{res.name}</h4>
+                      <h4 style={{ margin: 0, fontSize: '16px', color:'#3b010b' }}>{res.name}</h4>
                       <p style={{ margin: '2px 0 0 0', fontSize: '12px', color: '#66021f' }}>{res.dish}</p>
                     </div>
                     <div style={{ textAlign: 'right' }}>
@@ -382,7 +382,7 @@ const sliderStyle = { width: '100%', accentColor: '#c28d39' };
 const ultraCleanMapStyle = [{ elementType: "geometry", stylers: [{ color: "#212121" }] }, { featureType: "poi", elementType: "all", stylers: [{ visibility: "off" }] }];
 const mapContainerStyle = { height: '350px', width: '100%', borderRadius: '24px', margin: '15px 0', border: '1px solid #351018' };
 const searchBarWrapper = { background: '#e8d8c4', display: 'flex', padding: '12px', borderRadius: '15px' };
-const searchInputStyle = { background: 'transparent', border: 'none', color: 'white', width: '100%', outline: 'none', marginLeft: '10px' };
+const searchInputStyle = { background: 'transparent', border: 'none', color: '#5d222c', width: '100%', outline: 'none', marginLeft: '10px' };
 const linkStyle = { color: '#66021f', textDecoration: 'none' };
 const btnStyle = { background: '#f7ca84', color: 'black', border: 'none', padding: '12px 24px', borderRadius: '30px', fontWeight: 'bold' };
 const btnLarge = { ...btnStyle, width: '100%', marginTop: '10px' };
